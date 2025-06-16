@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body{
+    @apply bg-white
+    dark:bg-[#040711] dark:text-white;
+}
+
+.basic-color{
+    @apply bg-white text-black
+    dark:bg-[#040711] dark:text-white;
+}
+
+.theme-transition,
+.theme-transition*{
+    transition: background-color 0.3s,color 0.3s !important;
+}
+
+.animatedInput {
+    @apply text-black dark:text-white bg-white dark:bg-gray-950 h-1/2 p-3 rounded-[12px] border-[1.5px] border-[#838383] outline-none transition-all duration-300 ease-[cubic-bezier(0.19,1,0.22,1)] shadow-[0px_0px_20px_-18px] hover:border-[#b9b9b9] hover:shadow-[0px_0px_20px_-17px] active:scale-95 focus:border-gray-500;
+}
+
+.animatedDisabledInput {
+    @apply text-[#6e6e6e] cursor-not-allowed bg-white h-1/2 p-3 rounded-[12px] border-[1.5px] border-[#838383] outline-none transition-all duration-300 ease-[cubic-bezier(0.19,1,0.22,1)] shadow-[0px_0px_20px_-18px];
+}
+.clickEffect1{
+    @apply cursor-pointer select-none active:bg-gray-300  hover:bg-gray-200 text-black
+    dark:text-white dark:active:bg-gray-700 dark:hover:bg-gray-800;
+        transition: background-color 1s,color 1s !important;
+}
+
+main {
+    @apply pt-16; /* 140px / 8.75 = 16 (基于 Tailwind 的默认配置，1rem = 16px) */
+    @apply min-h-[calc(100vh-8.75rem)]; /* 140px / 16 = 8.75rem */
+}
+
+* {
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
