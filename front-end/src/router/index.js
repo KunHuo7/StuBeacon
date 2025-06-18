@@ -45,6 +45,24 @@ const router = createRouter({
           component:()=>import('@/views/Common/MainBlog.vue'),
 
         },
+        // AI聊天完整页面
+        {
+          name:'chatFullPage',
+          path:'/chat',
+          meta: {
+            title: 'AI助手'
+          },
+          component:()=>import('@/views/chat/AIchat.vue'),
+        },
+        // 带ID的聊天页面，用于打开特定对话
+        {
+          name:'chatWithId',
+          path:'/chat/:id',
+          meta: {
+            title: 'AI对话'
+          },
+          component:()=>import('@/views/chat/AIchat.vue'),
+        },
           //公告
         {
           name: 'viewBlog',
@@ -201,16 +219,6 @@ const router = createRouter({
           },
           component:()=>import('@/views/dropdown/activity/ActivityDetail.vue'),
         },
-        // {
-        //   name:'ts',
-        //   path:'/ts',
-        //   component:()=>import('@/views/Test.vue'),
-        // },
-        // {
-        //   name:'ts1',
-        //   path:'/ts1',
-        //   component:()=>import('@/views/Test1.vue'),
-        // },
         {
           name:'manager',
           path:'/manager',

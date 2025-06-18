@@ -1,4 +1,5 @@
 import '@/assets/CSS/main.css'
+import '@/assets/css/scrollbar.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 

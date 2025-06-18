@@ -9,13 +9,13 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #数据库驱动名
 
-  application:
-    name: StuBeacon  # 冒号后添加空格
-
-  ai:
-    openai:
-      api-key: sk-70IYbwgxXqWTpXUFeHf9GrATKKeDLpcrtQj6RYigzrOBzXUN # 填写实际的API密钥
-      base-url: https://xiaoai.plus #路径
+#  application:
+#    name: StuBeacon  # 冒号后添加空格
+#
+#  ai:
+#    openai:
+#      api-key: sk-70IYbwgxXqWTpXUFeHf9GrATKKeDLpcrtQj6RYigzrOBzXUN # 填写实际的API密钥
+#      base-url: https://xiaoai.plus #路径
 #      chat:
 #        options:
 #          model:   #gpt-4-32k 版本  32k参数

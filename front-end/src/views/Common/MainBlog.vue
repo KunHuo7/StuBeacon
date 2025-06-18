@@ -105,7 +105,7 @@ onMounted(() => {
     <div class="relative overflow-hidden">
       <!-- AI字样 -->
       <div class="ai-letter">AI</div>
-      <Carousel class="z-10 relative"/>
+<!--      <Carousel class="z-10 relative"/>-->
       <!-- IT字样 -->
       <div class="it-letter">IT</div>
     </div>
