@@ -3,8 +3,6 @@ package org.example.backend.Mapper;
 import org.apache.ibatis.annotations.*;
 import org.example.backend.Entity.pojo.TagRelation;
 
-import java.util.List;
-
 /**
  * 标签关联数据访问接口
  */
@@ -16,29 +14,29 @@ public interface TagRelationMapper {
      */
     @Insert("INSERT INTO tb_conversation_tag_relations(conversation_id, tag_id) VALUES(#{conversationId}, #{tagId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    int createTagRelation(TagRelation relation);
+    int createRelation(TagRelation relation);
     
     /**
-     * 检查标签关联是否存在
+     * 查询特定关联
      */
-    @Select("SELECT COUNT(*) FROM tb_conversation_tag_relations WHERE conversation_id = #{conversationId} AND tag_id = #{tagId}")
-    int checkTagRelationExists(@Param("conversationId") Integer conversationId, @Param("tagId") Integer tagId);
+    @Select("SELECT * FROM tb_conversation_tag_relations WHERE conversation_id = #{conversationId} AND tag_id = #{tagId}")
+    TagRelation getRelation(@Param("conversationId") Integer conversationId, @Param("tagId") Integer tagId);
     
     /**
-     * 获取对话的所有标签ID
+     * 删除关联
      */
-    @Select("SELECT tag_id FROM tb_conversation_tag_relations WHERE conversation_id = #{conversationId}")
-    List<Integer> getConversationTagIds(Integer conversationId);
-    
-    /**
-     * 删除标签关联
-     */
-    @Delete("DELETE FROM tb_conversation_tag_relations WHERE conversation_id = #{conversationId} AND tag_id = #{tagId}")
-    int deleteTagRelation(@Param("conversationId") Integer conversationId, @Param("tagId") Integer tagId);
+    @Delete("DELETE FROM tb_conversation_tag_relations WHERE id = #{id}")
+    int deleteRelation(Integer id);
     
     /**
      * 删除对话的所有标签关联
      */
     @Delete("DELETE FROM tb_conversation_tag_relations WHERE conversation_id = #{conversationId}")
-    int deleteConversationTagRelations(Integer conversationId);
+    int deleteConversationRelations(Integer conversationId);
+    
+    /**
+     * 删除标签的所有关联
+     */
+    @Delete("DELETE FROM tb_conversation_tag_relations WHERE tag_id = #{tagId}")
+    int deleteTagRelations(Integer tagId);
 }

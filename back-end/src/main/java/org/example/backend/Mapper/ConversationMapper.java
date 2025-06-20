@@ -16,13 +16,46 @@ public interface ConversationMapper {
      * 获取用户的所有对话
      */
     @Select("SELECT * FROM tb_conversations WHERE user_id = #{userId} ORDER BY updated_at DESC")
+    @Results({
+        @Result(property = "id", column = "id"),
+        @Result(property = "title", column = "title"),
+        @Result(property = "userId", column = "user_id"),
+        @Result(property = "createdAt", column = "created_at"),
+        @Result(property = "updatedAt", column = "updated_at"),
+        @Result(property = "lastMessage", column = "last_message"),
+        @Result(property = "totalMessages", column = "total_messages")
+    })
     List<Conversation> getUserConversations(Integer userId);
     
     /**
      * 获取特定对话
      */
     @Select("SELECT * FROM tb_conversations WHERE id = #{id}")
+    @Results({
+        @Result(property = "id", column = "id"),
+        @Result(property = "title", column = "title"),
+        @Result(property = "userId", column = "user_id"),
+        @Result(property = "createdAt", column = "created_at"),
+        @Result(property = "updatedAt", column = "updated_at"),
+        @Result(property = "lastMessage", column = "last_message"),
+        @Result(property = "totalMessages", column = "total_messages")
+    })
     Conversation getConversationById(Integer id);
+    
+    /**
+     * 获取特定用户的特定对话
+     */
+    @Select("SELECT * FROM tb_conversations WHERE id = #{id} AND user_id = #{userId}")
+    @Results({
+        @Result(property = "id", column = "id"),
+        @Result(property = "title", column = "title"),
+        @Result(property = "userId", column = "user_id"),
+        @Result(property = "createdAt", column = "created_at"),
+        @Result(property = "updatedAt", column = "updated_at"),
+        @Result(property = "lastMessage", column = "last_message"),
+        @Result(property = "totalMessages", column = "total_messages")
+    })
+    Conversation getConversationByIdAndUserId(@Param("id") Integer id, @Param("userId") Integer userId);
     
     /**
      * 创建新对话
@@ -35,7 +68,7 @@ public interface ConversationMapper {
     /**
      * 更新对话信息
      */
-    @Update("UPDATE tb_conversations SET title = #{title}, summary = #{summary}, " +
+    @Update("UPDATE tb_conversations SET title = #{title}, " +
             "updated_at = #{updatedAt}, last_message = #{lastMessage}, " +
             "total_messages = #{totalMessages} WHERE id = #{id}")
     int updateConversation(Conversation conversation);
@@ -53,6 +86,15 @@ public interface ConversationMapper {
             "JOIN tb_conversation_tag_relations r ON c.id = r.conversation_id " +
             "WHERE r.tag_id = #{tagId} AND c.user_id = #{userId} " +
             "ORDER BY c.updated_at DESC")
+    @Results({
+        @Result(property = "id", column = "id"),
+        @Result(property = "title", column = "title"),
+        @Result(property = "userId", column = "user_id"),
+        @Result(property = "createdAt", column = "created_at"),
+        @Result(property = "updatedAt", column = "updated_at"),
+        @Result(property = "lastMessage", column = "last_message"),
+        @Result(property = "totalMessages", column = "total_messages")
+    })
     List<Conversation> getConversationsByTag(@Param("tagId") Integer tagId, @Param("userId") Integer userId);
     
     /**

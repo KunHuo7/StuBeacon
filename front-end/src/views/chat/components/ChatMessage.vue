@@ -36,33 +36,78 @@ const renderContent = computed(() => {
 
 // 确定消息类型
 const isUser = computed(() => props.message.role === 'user');
+
+// 头像URL
+const avatarUrl = computed(() => {
+  return isUser.value 
+    ? '/src/assets/images/user-avatar.png' // 默认用户头像（需要替换为实际路径）
+    : '/src/assets/images/ai-avatar.png'; // 默认AI头像（需要替换为实际路径）
+});
+
+// 头像备选方案（如果图片加载失败）
+const avatarFallback = computed(() => {
+  return isUser.value ? 'U' : 'AI';
+});
+
+// 根据消息长度决定气泡最大宽度
+const bubbleMaxWidth = computed(() => {
+  const contentLength = props.message.content?.length || 0;
+  if (contentLength < 50) return 'max-w-xs';
+  if (contentLength < 200) return 'max-w-sm';
+  if (contentLength < 500) return 'max-w-md';
+  return 'max-w-lg';
+});
 </script>
 
 <template>
   <div 
-    class="flex"
-    :class="{ 'justify-end': isUser }"
+    class="flex items-start gap-4 group animate-fade-in"
+    :class="{ 
+      'justify-end': isUser
+    }"
   >
+    <!-- 头像 - 当不是用户消息(AI)时显示在左侧 -->
     <div 
-      class="max-w-[85%] md:max-w-[75%] rounded-lg p-3 mb-2 relative"
-      :class="[
-        isUser 
-          ? 'bg-blue-600 text-white rounded-tr-none' 
-          : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-none'
-      ]"
+      v-if="!isUser"
+      class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold shadow-sm bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-300"
     >
-      <!-- 消息内容 -->
+      <!-- 替代文本（当图片无法加载时显示） -->
+      {{ avatarFallback }}
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <!-- 消息气泡 -->
       <div 
-        class="prose dark:prose-invert prose-sm max-w-none break-words"
-        v-html="renderContent"
-      ></div>
-      
-      <!-- 消息时间 -->
+        :class="[
+          bubbleMaxWidth,
+          'rounded-2xl p-4 shadow-sm', 
+          isUser 
+            ? 'bg-blue-600 text-white rounded-xl border border-blue-600'
+            : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-xl border border-gray-200 dark:border-gray-700'
+        ]"
+      >
+        <div class="prose dark:prose-invert prose-sm max-w-none break-words" v-html="renderContent">
+        </div>
+      </div>
+
       <div 
-        class="text-xs mt-1 text-right opacity-70"
+        class="text-xs opacity-0 group-hover:opacity-70 transition-opacity px-2"
+        :class="[
+          isUser ? 'text-right' : 'text-left',
+          'text-gray-500 dark:text-gray-400'
+        ]"
       >
         {{ formattedTime }}
       </div>
+    </div>
+    
+    <!-- 头像 - 用户消息时显示在右侧 -->
+    <div 
+      v-if="isUser"
+      class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold shadow-sm bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300"
+    >
+      <!-- 替代文本（当图片无法加载时显示） -->
+      {{ avatarFallback }}
     </div>
   </div>
 </template>
@@ -115,5 +160,20 @@ const isUser = computed(() => props.message.role === 'user');
 
 :deep(.prose p:not(:last-child)) {
   @apply mb-3;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style> 

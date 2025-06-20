@@ -90,7 +90,7 @@ const planRoute = () => {
   }
   
   // 安徽信息工程学院的位置
-  const destination = [118.631987, 31.136777];
+  const destination = [118.636346,31.136825];
   
   // 规划路线
   props.driving.search(

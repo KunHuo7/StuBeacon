@@ -15,7 +15,8 @@ public class Conversation {
     
     private Integer id;          // 对话ID
     private String title;        // 对话标题
-    private String summary;      // 对话总结/摘要
+    // 摘要字段已从数据库表中移除
+    private transient String summary = null;  // 摘要功能已禁用
     private Integer userId;      // 用户ID
     private Date createdAt;      // 创建时间
     private Date updatedAt;      // 最后更新时间

@@ -297,7 +297,7 @@ onUnmounted(() => {
   <div class="activity-container mx-auto px-4 py-8">
     <!-- 页面标题 -->
     <div class="text-center mb-10">
-      <h1 class="text-3xl font-bold mb-4 text-gradient">校园活动中心</h1>
+<!--      <h1 class="text-3xl font-bold mb-4 text-gradient">校园活动中心</h1>-->
       <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
         发现精彩校园活动，结交志同道合的朋友，丰富你的大学生活
       </p>

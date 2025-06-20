@@ -84,7 +84,7 @@ onMounted(() => {
           </div>
 
           <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 transition-all duration-300 hover:shadow-md">
-            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">专业</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">专业班级</div>
             <div class="font-medium text-gray-900 dark:text-white">{{ personalInfo.major || '未设置' }}</div>
           </div>
 

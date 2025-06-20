@@ -55,7 +55,7 @@ public interface ConversationService {
     boolean deleteConversation(Integer conversationId, Integer userId);
     
     /**
-     * 生成并更新对话摘要
+     * 摘要功能已禁用
      * 
      * @param conversationId 对话ID
      * @param userId 用户ID（用于验证权限）

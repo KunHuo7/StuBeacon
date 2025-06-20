@@ -146,96 +146,10 @@ public class AIchatController {
     }
     
     /**
-     * 生成对话摘要
+     * 摘要功能已禁用
      */
-    @PostMapping("/conversations/{id}/summary")
-    public RestBean<String> generateSummary(
-            HttpServletRequest request,
-            @PathVariable("id") Integer conversationId
-    ) {
-        try {
-            Integer userId = (Integer) request.getAttribute("id");
-            if (userId == null) {
-                return RestBean.failure(401, "用户未登录");
-            }
-            
-            String summary = conversationService.generateAndUpdateSummary(conversationId, userId);
-            if (summary != null) {
-                return RestBean.success("生成摘要成功", summary);
-            } else {
-                return RestBean.failure(403, "生成摘要失败，请检查对话ID是否正确或对话是否为空");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return RestBean.failure(500, "服务器错误");
-        }
-    }
     
     /**
-     * 为对话添加标签
+     * 标签功能已禁用
      */
-    @PostMapping("/conversations/{id}/tags")
-    public RestBean<Void> addTagToConversation(
-            HttpServletRequest request,
-            @PathVariable("id") Integer conversationId,
-            @RequestParam("tagName") String tagName
-    ) {
-        try {
-            Integer userId = (Integer) request.getAttribute("id");
-            if (userId == null) {
-                return RestBean.failure(401, "用户未登录");
-            }
-            
-            boolean success = conversationService.addTagToConversation(conversationId, tagName, userId);
-            if (success) {
-                return RestBean.success("添加标签成功");
-            } else {
-                return RestBean.failure(403, "添加标签失败，请检查对话ID是否正确");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return RestBean.failure(500, "服务器错误");
-        }
-    }
-    
-    /**
-     * 获取用户的所有标签
-     */
-    @GetMapping("/tags")
-    public RestBean<List<ConversationTag>> getUserTags(HttpServletRequest request) {
-        try {
-            Integer userId = (Integer) request.getAttribute("id");
-            if (userId == null) {
-                return RestBean.failure(401, "用户未登录");
-            }
-            
-            List<ConversationTag> tags = conversationService.getUserTags(userId);
-            return RestBean.success("获取标签成功", tags);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return RestBean.failure(500, "服务器错误");
-        }
-    }
-    
-    /**
-     * 按标签查询对话
-     */
-    @GetMapping("/tags/{tagId}/conversations")
-    public RestBean<List<ConversationVO>> getConversationsByTag(
-            HttpServletRequest request,
-            @PathVariable("tagId") Integer tagId
-    ) {
-        try {
-            Integer userId = (Integer) request.getAttribute("id");
-            if (userId == null) {
-                return RestBean.failure(401, "用户未登录");
-            }
-            
-            List<ConversationVO> conversations = conversationService.getConversationsByTag(tagId, userId);
-            return RestBean.success("获取对话列表成功", conversations);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return RestBean.failure(500, "服务器错误");
-        }
-    }
 } 

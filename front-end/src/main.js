@@ -1,5 +1,4 @@
 import '@/assets/CSS/main.css'
-import '@/assets/css/scrollbar.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -13,6 +12,8 @@ import 'ant-design-vue/dist/reset.css';
 // 引入echarts
 import Echarts from 'vue-echarts'
 import * as echarts from 'echarts'
+// 确保滚动条样式最后加载，以覆盖其他样式
+import '@/assets/CSS/scrollbar.css'
 
 const app = createApp(App)
 

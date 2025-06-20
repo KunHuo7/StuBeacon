@@ -5,7 +5,7 @@ import { useThemeStore } from '@/stores/theme.js';
 import { message } from 'ant-design-vue';
 import { get, post } from '@/net/index.js';
 import { formatDate } from "@/util/DateFormattor.js";
-
+import Talk_card from "@/components/zuJian/card/talk_card.vue";
 
 const router = useRouter();
 const themeStore = useThemeStore();
@@ -257,6 +257,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <div class="grid-cols-[3fr,8fr]">
   <contextHolder />
   <div class="min-h-screen transition-colors duration-500 py-8">
     <div class="container mx-auto px-4">
@@ -265,15 +266,11 @@ onMounted(() => {
         <!-- 背景光效 -->
         <div class="absolute inset-0 -z-10 bg-gradient-to-r from-blue-100/30 to-purple-100/30 dark:from-blue-900/20 dark:to-purple-900/20 blur-2xl opacity-60"></div>
 
-        <!-- 主标题 -->
-        <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-pink-600 dark:from-blue-400 dark:via-purple-300 dark:to-pink-400 bg-clip-text text-transparent mb-3 animate-slide-down">
-          话题讨论
-        </h1>
 
-        <!-- 装饰线 -->
-        <div class="relative inline-block mb-4">
-          <div class="absolute -bottom-2 left-1/2 w-24 -translate-x-1/2 h-1 bg-gradient-to-r from-blue-400/60 to-purple-400/60 dark:from-blue-600/50 dark:to-purple-600/50 rounded-full"></div>
-        </div>
+
+<!--        <div class="relative inline-block mb-4">-->
+<!--          <div class="absolute -bottom-2 left-1/2 w-24 -translate-x-1/2 h-1 bg-gradient-to-r from-blue-400/60 to-purple-400/60 dark:from-blue-600/50 dark:to-purple-600/50 rounded-full"></div>-->
+<!--        </div>-->
 
         <!-- 副标题 -->
         <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300/90 max-w-2xl mx-auto leading-relaxed animate-slide-up animation-delay-300">
@@ -281,13 +278,7 @@ onMounted(() => {
       分享你的想法，参与精彩讨论
     </span>
         </p>
-        
-        <!-- 搜索提示 -->
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 animate-slide-up" style="animation-delay: 400ms;">
-          <span class="inline-block bg-white/60 dark:bg-gray-800/60 px-2 py-1 rounded-lg backdrop-blur-sm">
-            提示: 使用 <span class="text-blue-500 font-medium">@用户名</span> 可以搜索特定作者的话题
-          </span>
-        </p>
+
       </div>
 
       <!-- 搜索和发布区域 -->
@@ -324,6 +315,7 @@ onMounted(() => {
           发布新话题
         </button>
       </div>
+
 
       <!-- 筛选状态提示和重置按钮 -->
       <div v-if="isFiltering" class="mb-6 flex items-center justify-between px-4 py-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-100 dark:border-blue-800 animate-fade-in">
@@ -384,6 +376,7 @@ onMounted(() => {
         </button>
         </div>
       </div>
+
 
       <!-- 话题列表 -->
       <div v-else class="flex flex-col gap-6 w-[85%] max-w-6xl mx-auto">
@@ -569,6 +562,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
+  </div>
+
   </div>
 </template>
 

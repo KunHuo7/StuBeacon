@@ -28,7 +28,13 @@ const confirmDelete = ref(null);
 
 // 选择对话
 const selectConversation = (id) => {
+  // 触发选择事件
   emit('select', id);
+  
+  // 更新URL地址，但不重新加载页面
+  if (id) {
+    window.history.pushState({}, '', `/chat/${id}`);
+  }
 };
 
 // 格式化日期
@@ -94,14 +100,10 @@ const sortedConversations = computed(() => {
   });
 });
 
-// 获取对话摘要或最后消息的预览文本
+// 获取对话最后消息的预览文本
 const getPreviewText = (conversation) => {
-  // 优先显示摘要，如果没有则显示最后一条消息
-  if (conversation.summary && conversation.summary.trim() !== '') {
-    return conversation.summary;
-  } else {
+  // 摘要功能已禁用，直接显示最后一条消息
     return conversation.lastMessage || '';
-  }
 };
 </script>
 
@@ -158,18 +160,7 @@ const getPreviewText = (conversation) => {
               <span class="ml-2 whitespace-nowrap">{{ formatDate(conversation.date) }}</span>
             </div>
           </div>
-          
-          <!-- 标签列表 -->
-          <div v-if="conversation.tags && conversation.tags.length > 0" class="flex gap-1 mt-1 flex-wrap">
-            <span 
-              v-for="(tag, index) in conversation.tags" 
-              :key="index"
-              class="text-xs px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
-            >
-              {{ tag }}
-            </span>
-          </div>
-          
+
           <!-- 删除按钮 -->
           <button 
             class="ml-2 p-1.5 self-start rounded-full opacity-0 group-hover:opacity-100 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 dark:text-gray-400 transition-all"

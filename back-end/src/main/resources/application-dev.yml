@@ -40,6 +40,11 @@ spring:
 file:
   upload-dir: ./uploads  # 上传目录路径（相对项目根目录）
 
+# MyBatis配置
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true  # 开启驼峰命名自动映射
+
 server:
   servlet:
     session:

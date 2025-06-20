@@ -4,6 +4,7 @@ import org.example.backend.Entity.pojo.Conversation;
 import org.example.backend.Entity.pojo.Message;
 import org.example.backend.Entity.vo.MessageVO;
 import org.example.backend.Service.AIService;
+import org.example.backend.Mapper.MessageMapper;
 import org.example.backend.Service.ConversationService;
 import org.example.backend.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,30 +35,43 @@ public class MessageServiceImpl implements MessageService {
         this.conversationService = conversationService;
     }
 
-    // TODO: 添加消息数据访问层依赖
+    @Resource
+    private MessageMapper messageMapper;
     
     // 摘要生成触发条件 - 消息数阈值
     private static final int SUMMARY_THRESHOLD = 10;
 
     @Override
     public List<MessageVO> getConversationMessages(Integer conversationId, Integer userId) {
-        // 验证用户是否有权限访问这个对话
+    // 直接通过用户ID和会话ID验证用户是否有权限访问这个对话
         if (conversationService.getConversation(conversationId, userId) == null) {
-            return new ArrayList<>();
+        return new ArrayList<>(); // 对话不存在或不属于该用户
         }
 
-        // TODO: 从数据库获取消息并转换为VO
-        // 临时返回空列表，等待数据访问层实现
-        return new ArrayList<>();
+    // 从数据库获取该对话的所有消息
+    List<Message> messages = messageMapper.getConversationMessages(conversationId);
+    
+    // 转换为前端需要的VO对象
+    List<MessageVO> result = new ArrayList<>();
+    for (Message message : messages) {
+        MessageVO vo = new MessageVO();
+        vo.setId(message.getId().toString());
+        vo.setRole(message.getRole());
+        vo.setContent(message.getContent());
+        vo.setTimestamp(message.getTimestamp());
+        result.add(vo);
+    }
+    
+    return result;
     }
 
     @Override
     @Transactional
     public MessageVO sendMessage(Integer conversationId, String content, Integer userId) {
         try {
-            // 验证用户是否有权限访问这个对话
+        // 直接通过用户ID和会话ID验证用户是否有权限访问这个对话
             if (conversationService.getConversation(conversationId, userId) == null) {
-                return null;
+            return null; // 对话不存在或不属于该用户
             }
 
             // 创建用户消息
@@ -77,8 +91,8 @@ public class MessageServiceImpl implements MessageService {
             // 更新对话状态
             updateConversationStatus(conversationId, assistantMessage);
             
-            // 检查是否需要更新摘要
-            checkAndUpdateSummary(conversationId, userId);
+            // 摘要功能已禁用
+            // checkAndUpdateSummary(conversationId, userId);
 
             // 返回AI回复的VO
             MessageVO messageVO = new MessageVO();
@@ -97,16 +111,16 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Integer saveMessage(Message message) {
-        // TODO: 实现消息保存逻辑
-        // 临时返回null，等待数据访问层实现
-        return 1; // 模拟ID
+    // 保存消息到数据库
+    messageMapper.saveMessage(message);
+    return message.getId();
     }
 
     @Override
     public boolean deleteConversationMessages(Integer conversationId) {
-        // TODO: 实现删除对话消息的逻辑
-        // 临时返回true，等待数据访问层实现
-        return true;
+    // 删除指定对话的所有消息
+    int rows = messageMapper.deleteConversationMessages(conversationId);
+    return rows >= 0; // 返回true，即使没有消息被删除
     }
     
     @Override
@@ -144,36 +158,7 @@ public class MessageServiceImpl implements MessageService {
     
     @Override
     public boolean checkAndUpdateSummary(Integer conversationId, Integer userId) {
-        try {
-            // 获取当前对话
-            Conversation conversation = conversationService.getConversation(conversationId, userId);
-            
-            if (conversation != null) {
-                Integer totalMessages = conversation.getTotalMessages();
-                
-                // 当消息数是SUMMARY_THRESHOLD的倍数时，触发摘要生成
-                // 或者当对话没有摘要时也生成
-                if (totalMessages != null && 
-                    (totalMessages % SUMMARY_THRESHOLD == 0 || 
-                     conversation.getSummary() == null || 
-                     conversation.getSummary().isEmpty())) {
-                     
-                    // 异步生成摘要
-                    new Thread(() -> {
-                        try {
-                            conversationService.generateAndUpdateSummary(conversationId, userId);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-                    
-                    return true;
-                }
-            }
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        // 摘要功能已禁用
+        return false;
     }
 } 
